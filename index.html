@@ -1,0 +1,106 @@
+codedeploy training 
+
+
+Name: Basic CodeDeploy Overview
+
+Description:
+
+This instructor led training introduces the CodeDeploy service and how it is used, reviews the architecture as well as the tools used for troubleshooting customer use cases.
+
+Following this training you must also complete the below exercises:
+
+Code Deploy:
+
+    Exercise 1:
+        Create three instances.
+        Create a github repository to host your application code (be mindful of not storing keys)
+        Create an application that ensures that apache is installed before deploying (use a deployment hook)
+        Create a deployment group with the instances
+        Deploy the github application to the deployment group
+    Exercise 2:
+        Create an Autoscaling group
+        Create a second deployment group in the application created with the security group
+        Deploy the application you created in exercise 1
+    Bonus exercise:
+        For quick testing create one cloudformation templates that:
+            Creates three instances
+            Creates an application
+            Creates a deployment group with the instances
+            You can use this template to quickly create resources for case work
+        Same thing with an ASG
+
+Duration: 120 minutes 
+
+is best for application configuration only
+its a stable platform to deploy to.
+
+Appspecfile.yaml
+
+application
+deployment groups
+code deploy has no integrated rollback.
+
+requirements for codedeploy to run
+IAM roles  awscodedeployrole
+service role and the managed Policy  AmazonEc2roleforAWSCodeDeploy grnats permission to agent code running inside your instance.
+
+
+what can you use to create Deployment Groups?
+
+1.TAG Keys
+2.Tag value
+3.ASG names
+
+One at a Time
+The deployment will:
+Deploy to one instance at a time. Succeed if all instances succeed. Fail after the very first failure. Allow the deployment to succeed for some instances, even if the overall deployment fails.
+Example:
+If you deploy your application to 3 instances, this configuration will deploy to one instance at a time.
+Succeeds if all 3 instances succeed.
+Fails after any instance fails.
+Half at a Time
+The deployment will:
+Deploy to up to half of the instances at a time, with fractions rounded down. Succeed if at least half of the instances succeed, otherwise it will fail. The deployment may succeed for some instances, even if the overall deployment fails.
+Example:
+If you deploy your application to 3 instances, this configuration will deploy to one instance at a time.
+Succeeds if 2 or more instances succeed.
+Fails if 2 or more instances fail.
+All at Once
+The deployment will:
+Deploy to all instances at once. Succeed if at least one instance succeeds. Fail after all instances fail.
+Example:
+If you deploy your application to 3 instances, this configuration will deploy to all 3 instances at once.
+Succeeds if any instance succeeds.
+Fails if all instances fail.
+
+
+
+
+always recommend to customer to use the userdata to intstall the codedeploy agent onto an instance
+
+
+widnows sample here 
+
+<powershell>
+New-Item -ItemType Directory -Force -Path c:\temp
+Read-S3Object -BucketName aws-codedeploy-us-east-1/latest -Key codedeploy-agent.msi -File c:\temp\codedeploy-agent.msi
+start c:\temp\codedeploy-agent.msi '/qn /l*v c:\temp\host-agent-install-log.txt'
+</powershell>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
